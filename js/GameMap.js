@@ -1,6 +1,6 @@
 import { GameObject } from "/js/GameObject.js";
 import {Wall} from "/js/Wall.js";
-
+import { Snake } from "/js/Snake.js";
 export class GameMap extends GameObject{
     constructor(parent)
     {
@@ -14,6 +14,11 @@ export class GameMap extends GameObject{
 
         this.inner_walls_count=20;
         this.walls=[];
+
+        this.snakes=[
+            new Snake({id:0,color:"#4876EC",r:this.rows-2,c:1},this),
+            new Snake({id:1,color:"#F94848",r:1,c:this.cols-2},this),
+        ];
     }
     start(){
         for(let i=0;i<1000;i++)//暴力生成地图
