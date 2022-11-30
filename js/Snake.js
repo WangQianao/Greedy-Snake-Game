@@ -35,13 +35,58 @@ export class Snake extends GameObject{
             [-1,1],
 
         ];
+
+        this.speed=5;
+        this.status="idle";//idle表示静止,move表示正在移动,die表示死亡
+        this.dr=[-1,0,1,0];
+        this.dc=[0,1,0,-1];
+        this.eps=1e-2;
     }
     start()
     {
 
     }
+    next_step()//将蛇的状态变为下一步
+    {
+        const d=this.direction;
+        this.next_cell=new Cell(this.cells[0].r+this.dr[d],this.cells[0].c+this.dc[d]);
+        this.eye_direction=d; 
+        this.direction=-1;
+        this.status="move";
+        const k=this.cells.length;
+        for(let i=k;i>0;i--)
+        {
+            this.cells[i]=JSON.parse(JSON.stringify(this.cells[i-1]));
+        }
+    }
+    set_direction(d)
+    {
+        this.direction=d;
+    }
+    update_move()
+    {
+        const dx=this.next_cell.x-this.cells[0].x;
+        const dy=this.next_cell.y-this.cells[0].y;
+        const distance=Math.sqrt(dx*dx+dy*dy);
+        if(distance<this.eps)//走到目标点后
+        {
+            this.cells[0]=this.next_cell;//新增一个蛇头
+            this.next_cell=null;
+            this.status="idle"; 
+              
+        }else{
+            const move_distance=this.speed*this.timedelta/1000;//每两帧之间走过的距离
+            this.cells[0].x+=move_distance*dx/distance;
+            this.cells[0].y+=move_distance*dy/distance;
+        }
+
+    }
     update()
     {
+        if(this.status==='move')
+        {
+            this.update_move();
+        }
         this.render();
     }
     render()
