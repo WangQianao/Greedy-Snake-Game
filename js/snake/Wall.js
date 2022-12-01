@@ -1,4 +1,4 @@
-import { GameObject } from "/js/GameObject.js";
+import { GameObject } from "/js/snake/GameObject.js";
 
 export  class Wall extends GameObject{
     constructor(r,c,gamemap)
