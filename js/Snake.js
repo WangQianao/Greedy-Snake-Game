@@ -41,6 +41,7 @@ export class Snake extends GameObject{
         this.dr=[-1,0,1,0];
         this.dc=[0,1,0,-1];
         this.eps=1e-2;
+        this.step=0;//回合数
     }
     start()
     {
@@ -53,12 +54,21 @@ export class Snake extends GameObject{
         this.eye_direction=d; 
         this.direction=-1;
         this.status="move";
+        this.step++;
         const k=this.cells.length;
         for(let i=k;i>0;i--)
         {
             this.cells[i]=JSON.parse(JSON.stringify(this.cells[i-1]));
         }
+        if(!this.gamemap.check_valid(this.next_cell))
+        {
+            this.status="die";
+        }
     }
+    check_tail_increasing(){//检测当前回合，蛇的长度是否增加
+        if(this.step%3===1) return true;
+        return false;
+        }
     set_direction(d)
     {
         this.direction=d;
@@ -73,11 +83,26 @@ export class Snake extends GameObject{
             this.cells[0]=this.next_cell;//新增一个蛇头
             this.next_cell=null;
             this.status="idle"; 
+            //如果蛇不变长，就砍掉蛇尾
+            if(!this.check_tail_increasing())
+            {
+                this.cells.pop();
+            }
               
         }else{
             const move_distance=this.speed*this.timedelta/1000;//每两帧之间走过的距离
             this.cells[0].x+=move_distance*dx/distance;
             this.cells[0].y+=move_distance*dy/distance;
+            //如果蛇不变长，就要让蛇尾像蛇头一样移动起来
+            if(!this.check_tail_increasing())
+            {
+                const k=this.cells.length;
+                const tail=this.cells[k-1],tail_target=this.cells[k-2];
+                const tail_dx=tail_target.x-tail.x;
+                const tail_dy=tail_target.y-tail.y;
+                tail.x+=move_distance*tail_dx/distance;
+                tail.y+=move_distance*tail_dy/distance;
+            }
         }
 
     }
@@ -94,6 +119,10 @@ export class Snake extends GameObject{
         const L=this.gamemap.L;
         const ctx=this.gamemap.ctx;
         ctx.fillStyle=this.color;
+        if(this.status==="die")
+        {
+            ctx.fillStyle="white";
+        }
         //绘制蛇的身体
         for(const cell of this.cells)
         {
@@ -101,7 +130,17 @@ export class Snake extends GameObject{
             ctx.arc(cell.x*L,cell.y*L,L/2*0.8,0,Math.PI*2);
             ctx.fill();
         }
-
+        for(let i=1;i<this.cells.length;i++)
+        {
+             const a=this.cells[i-1],b=this.cells[i];
+             if(Math.abs(a.x-b.x)<this.eps&&Math.abs(a.y-b.y)<this.eps)continue;
+             if(Math.abs(a.x-b.x)<this.eps)
+             {
+                ctx.fillRect((a.x-0.4)*L,Math.min(a.y,b.y)*L,L*0.8,Math.abs(a.y-b.y)*L);
+             }else{
+                ctx.fillRect(Math.min(a.x,b.x)*L,(a.y-0.4)*L,Math.abs(a.x-b.x)*L,L*0.8);
+             }
+        }
         //绘制蛇的两个眼睛
         ctx.fillStyle="black";
         for(let i=0;i<2;i++)
