@@ -346,7 +346,7 @@ create_walls()
     }
 
     //创建内部的随机障碍物,必须是沿中心轴对称
-    for(let i=0;i<this.inner_walls_count;i++)
+    for(let i=0;i<this.inner_walls_count/2;i++)
     {
         //暴力生成障碍物，生成一千次随机数应该是能保证至少有一次成功生成的
         for(let j=0;j<1000;j++)
@@ -527,7 +527,7 @@ export class GameMap extends GameObject{
 接下来，用Live Server打开index.html，就能看见地图了
 不断使用刷新键刷新网页，可以看到每一次都会动态生成不同的地图
 
-![04.png](https://s2.loli.net/2022/11/30/vwOs6kBZPd8W9fY.png)
+![04.png](https://s2.loli.net/2022/12/03/M89XoGsC5tFvTSD.png)
 
 # 蛇🐍
 
@@ -673,7 +673,7 @@ import { Snake } from "/js/Snake.js";
 
 用Live Server打开index.html，蛇就画出来了（目前只有一个蛇头）。
 
-![05.png](https://s2.loli.net/2022/11/30/Uc1gMrwRqPyBLOA.png)
+![05.png](https://s2.loli.net/2022/12/03/6zKhbF2YgCR5i74.png)
 
 # 蛇的移动
 
@@ -853,8 +853,7 @@ update()
 ```
 
 如果不出意外，到这里，你的两条蛇应该就能听你的命令跑起来了。注意，你需要给两条蛇都下达指令后，两条蛇才会行动。只给一条蛇下达指令是不行的。
-![2022-11-30 21-04-59.gif](https://s2.loli.net/2022/11/30/NyKj49kBFzLUEOC.gif)
-
+![2022-12-03 13-07-28.gif](https://s2.loli.net/2022/12/03/ZWrAxC6EbUJso9H.gif)
 可以看到，两条蛇虽然动起来了，但是并不是很平滑，还可以继续美化，并且，障碍物也没有起到它应该有的作用。在下一节，我们将对蛇的移动进行美化，并且加上对蛇碰到障碍物的判断。
 
 
@@ -933,7 +932,7 @@ render()
 
 ```
 这时候，再用LiveServer打开index.html文件，控制蛇移动，就会发现蛇变得顺滑了
-![10.png](https://s2.loli.net/2022/12/01/F2R5M1gnQomuYNa.png)
+![10.png](https://s2.loli.net/2022/12/03/3IGLXRdcg7NT1aF.png)
 
 ## 障碍物判断
 接下来我们要加入对游戏失败的判断。
@@ -1042,7 +1041,7 @@ check_valid(cell)//检测目标位置是否合法，没有撞到蛇的身体和�
 ```
 
 当完成上面这些操作后，再用live server打开项目，操作蛇去撞墙或者撞蛇，游戏就会结束
-![11.png](https://s2.loli.net/2022/12/01/MpaN1Bkgq7ZeJwl.png)
+![11.png](https://s2.loli.net/2022/12/03/f8kbULMowSny362.png)
 
 ## 蛇的长度
 <p>我们发现，蛇的长度在每一个回合都会增加，能不能控制一下，让蛇的长度每三个回合增加一次呢？</p>
@@ -1129,5 +1128,4 @@ check_valid(cell)//检测目标位置是否合法，没有撞到蛇的身体和�
 }
 ```
 到这里为止，我们的简易贪吃蛇就实现完成了
-![2022-12-01 13-57-51.gif](https://s2.loli.net/2022/12/01/zFeIUm81Gr3lCkP.gif)
-
+![2022-12-03 13-12-54.gif](https://s2.loli.net/2022/12/03/zhi4C351jN6fwO8.gif)

@@ -9,5 +9,4 @@
 文件learn.md是对项目的手把手教学
 # 项目效果
 
-![2022-12-01 16-44-11.gif](https://s2.loli.net/2022/12/01/J3zLeXTP5aBi8qI.gif)
-
+![2022-12-03 11-27-03.gif](https://s2.loli.net/2022/12/03/A2lmHMgK1GqLwb5.gif)

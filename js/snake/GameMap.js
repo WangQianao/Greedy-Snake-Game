@@ -80,7 +80,7 @@ export class GameMap extends GameObject {
         }
 
         //创建内部的随机障碍物,必须是沿中心轴对称
-        for (let i = 0; i < this.inner_walls_count; i++) {
+        for (let i = 0; i < this.inner_walls_count/2; i++) {
             for (let j = 0; j < 1000; j++)//暴力生成障碍物
             {
                 let r = parseInt(Math.random() * this.rows);
