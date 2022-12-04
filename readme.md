@@ -1,4 +1,4 @@
-# javascript 实现简易贪吃蛇
+# javascript 实现贪吃蛇
 
 # 说明
 
